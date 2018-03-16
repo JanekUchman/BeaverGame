@@ -31,16 +31,17 @@ public class CurrentImpulse : MonoBehaviour {
         Collider2D[] ImpulseCollisions = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), ImpulseRadius, ForceLayer, -Mathf.Infinity, Mathf.Infinity);
         for(int i = 0; i < ImpulseCollisions.Length; i++)
         {
-            Debug.Log("hit argument");
             // Check if the object has a rigidbody attached to it - needs force applied to it
             if(ImpulseCollisions[i].GetComponent<Rigidbody2D>())
             {
-                // Reset velocity of the object being effected by the current
-                ImpulseCollisions[i].GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                 // Direction that the force should be applied in = position of force - position of the object
                 Vector2 ForceVector = (ImpulseCollisions[i].transform.position - transform.position) * ImpulseForce;
-                // Apply force to the object at the point of overlap
-                ImpulseCollisions[i].GetComponent<Rigidbody2D>().AddForce(ForceVector);
+                // Get distance between the impulse and the object that it is applying force to
+                float Distance = ForceVector.magnitude;
+                // Divide the force vector by the distance to get values between 1 and 0 (therefore meaning that everytime force is applied, it will be the same for all objects)
+                ForceVector /= Distance;
+                // Set velocity of the object being effected by the current, to get "arcade" physics feel
+                ImpulseCollisions[i].GetComponent<Rigidbody2D>().velocity = ForceVector;
             }
         }
     }
