@@ -35,11 +35,13 @@ public class CurrentImpulse : MonoBehaviour {
             if(ImpulseCollisions[i].GetComponent<Rigidbody2D>())
             {
                 // Direction that the force should be applied in = position of force - position of the object
-                Vector2 ForceVector = (ImpulseCollisions[i].transform.position - transform.position) * ImpulseForce;
+                Vector2 ForceVector = (ImpulseCollisions[i].transform.position - transform.position);
                 // Get distance between the impulse and the object that it is applying force to
                 float Distance = ForceVector.magnitude;
                 // Divide the force vector by the distance to get values between 1 and 0 (therefore meaning that everytime force is applied, it will be the same for all objects)
                 ForceVector /= Distance;
+                // Multiply by the impulse force
+                ForceVector *= ImpulseForce;
                 // Set velocity of the object being effected by the current, to get "arcade" physics feel
                 ImpulseCollisions[i].GetComponent<Rigidbody2D>().velocity = ForceVector;
             }

@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImpulseRadius: 5
-  ImpulseForce: 1
+  ImpulseForce: 2
   ForceLayer:
     serializedVersion: 2
     m_Bits: 4294967247
