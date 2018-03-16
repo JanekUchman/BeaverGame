@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Docks.unity
+- path: Assets/Scenes/Best scene.unity
   isLoaded: 1
   isActive: 1
