@@ -8,6 +8,7 @@ public class Turret : MonoBehaviour {
     public float RotationRate = 10.0f;
     public float FiringRate = 2.0f;
     public float MinFiringAngle = 10.0f;
+    public float KnockOutTime = 2.0f;
     public LayerMask DetectionLayer;
     public GameObject Projectile;
     public Transform ProjectileSpawn;
@@ -16,6 +17,7 @@ public class Turret : MonoBehaviour {
     public List<GameObject> InstantiatedProjectiles = new List<GameObject>();
     private bool knockedOut = false;
     private float fireTimer = 0.0f;
+    private float knockOutTimer = 0.0f;
 
     // Use this for initialization
     void Start () {
@@ -24,7 +26,20 @@ public class Turret : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        DetectTarget();
+        // Check if our turrets has been knocked out - otherwise, detect targets
+        if (!knockedOut)
+        {
+            DetectTarget();
+        }
+        else
+        {
+            // Reset knock out with timer
+            knockOutTimer -= Time.deltaTime;
+            if(knockOutTimer <= 0)
+            {
+                knockedOut = false;
+            }
+        }
 	}
 
     void DetectTarget()
@@ -37,8 +52,6 @@ public class Turret : MonoBehaviour {
         {
             // Create variable to determine what ship is closest to the turret
             float closestDistance = Mathf.Infinity;
-            // Bool used to determine if we should fire at target
-            bool shouldFire = false;
             for (int i = 0; i < DetectedColliders.Length; i++)
             {
 				// Determine the distance between the collider and the turret
@@ -106,5 +119,13 @@ public class Turret : MonoBehaviour {
         // Set the transform to be that of the turret
         InstantiatedProjectiles[furthestDistanceObjID].transform.position = ProjectileSpawn.position;
         InstantiatedProjectiles[furthestDistanceObjID].transform.rotation = ProjectileSpawn.rotation;
+    }
+
+    public void ToggleKnockOut()
+    {
+        if(!knockedOut)
+        {
+            knockedOut = true;
+        }
     }
 }

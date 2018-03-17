@@ -38,4 +38,9 @@ public class Projectile : MonoBehaviour {
             projectileActive = true;
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+
+    }
 }
