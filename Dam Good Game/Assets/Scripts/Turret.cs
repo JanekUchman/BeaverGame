@@ -7,9 +7,15 @@ public class Turret : MonoBehaviour {
     public float DetectionDistance = 10.0f;
     public float RotationRate = 10.0f;
     public float FiringRate = 2.0f;
+    public float MinFiringAngle = 10.0f;
     public LayerMask DetectionLayer;
+    public GameObject Projectile;
+    public Transform ProjectileSpawn;
+    public int MaxInstantiatedProjectiles = 8;
 
-    private bool knockedOut = false; 
+    public List<GameObject> InstantiatedProjectiles = new List<GameObject>();
+    private bool knockedOut = false;
+    private float fireTimer = 0.0f;
 
     // Use this for initialization
     void Start () {
@@ -31,6 +37,8 @@ public class Turret : MonoBehaviour {
         {
             // Create variable to determine what ship is closest to the turret
             float closestDistance = Mathf.Infinity;
+            // Bool used to determine if we should fire at target
+            bool shouldFire = false;
             for (int i = 0; i < DetectedColliders.Length; i++)
             {
 				// Determine the distance between the collider and the turret
@@ -48,9 +56,54 @@ public class Turret : MonoBehaviour {
                     Quaternion lookRotation = Quaternion.AngleAxis(lookAngle, transform.forward);
                     // Rotate the object over time
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * RotationRate);
+                    // Check if the object is facing the target
+                    float compAngle = Quaternion.Angle(transform.rotation, lookRotation);
+                    Debug.Log(compAngle);
+                    // Check that the absolute value between the target rotation 
+                    if(Mathf.Abs(compAngle) < MinFiringAngle)
+                    {
+                        // Increment firing timer
+                        fireTimer += Time.deltaTime;
+                        if(fireTimer > FiringRate)
+                        {
+                            // Fire projectile - if there are still projectiles we need to instantiate...
+                            if(InstantiatedProjectiles.Count < MaxInstantiatedProjectiles)
+                            {
+                                GameObject newProjectile = Instantiate(Projectile, ProjectileSpawn.position, ProjectileSpawn.rotation);
+                                // Add new projectile to the list of instantiated projectiles
+                                InstantiatedProjectiles.Add(newProjectile);
+                            }
+                            else
+                            {
+                                ResetProjectile();
+                            }
+                            // Reset timer
+                            fireTimer = 0.0f;
+                        }
+                    }
                 }
             }
         }
     }
 
+    void ResetProjectile()
+    {
+        // Variables used to store comparison
+        float furthestDistance = -Mathf.Infinity;
+        int furthestDistanceObjID = 0;
+        for(int i = 0; i < InstantiatedProjectiles.Count; i++)
+        {
+            // Find the projectile furthest away from the player
+            float curDistance = Vector2.Distance(InstantiatedProjectiles[i].transform.position, transform.position);
+            if(curDistance > furthestDistance)
+            {
+                // this is the furthest distance object right now
+                furthestDistance = curDistance;
+                furthestDistanceObjID = i;
+            }
+        }
+        // Set the transform to be that of the turret
+        InstantiatedProjectiles[furthestDistanceObjID].transform.position = ProjectileSpawn.position;
+        InstantiatedProjectiles[furthestDistanceObjID].transform.rotation = ProjectileSpawn.rotation;
+    }
 }

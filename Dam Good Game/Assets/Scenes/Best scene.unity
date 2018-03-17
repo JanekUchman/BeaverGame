@@ -247,9 +247,13 @@ MonoBehaviour:
   DetectionDistance: 3
   RotationRate: 40
   FiringRate: 2
+  MinFiringAngle: 10
   DetectionLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+  Projectile: {fileID: 1511147570940042, guid: a4a269a5ba1211b44b9ca9c017689d74, type: 2}
+  ProjectileSpawn: {fileID: 1799113034}
+  MaxInstantiatedProjectiles: 8
 --- !u!212 &712516498
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -301,7 +305,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.99, y: 0.18000007, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1799113034}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -763,6 +768,34 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
+--- !u!1 &1799113033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1799113034}
+  m_Layer: 0
+  m_Name: projectilespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1799113034
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1799113033}
+  m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
+  m_LocalPosition: {x: 0.7679999, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 712516499}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
 --- !u!1 &2095079999
 GameObject:
   m_ObjectHideFlags: 0
