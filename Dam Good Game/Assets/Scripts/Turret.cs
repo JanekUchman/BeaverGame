@@ -33,9 +33,12 @@ public class Turret : MonoBehaviour {
         }
         else
         {
-            // Reset knock out with timer
-            knockOutTimer -= Time.deltaTime;
-            if(knockOutTimer <= 0)
+            if (knockOutTimer > 0)
+            {
+                // Reset knock out with timer
+                knockOutTimer -= Time.deltaTime;
+            }
+            else
             {
                 knockedOut = false;
             }
@@ -71,7 +74,6 @@ public class Turret : MonoBehaviour {
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * RotationRate);
                     // Check if the object is facing the target
                     float compAngle = Quaternion.Angle(transform.rotation, lookRotation);
-                    Debug.Log(compAngle);
                     // Check that the absolute value between the target rotation 
                     if(Mathf.Abs(compAngle) < MinFiringAngle)
                     {
