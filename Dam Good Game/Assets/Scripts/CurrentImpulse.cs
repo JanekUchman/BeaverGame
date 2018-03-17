@@ -31,6 +31,11 @@ public class CurrentImpulse : MonoBehaviour {
         Collider2D[] ImpulseCollisions = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), ImpulseRadius, ForceLayer, -Mathf.Infinity, Mathf.Infinity);
         for(int i = 0; i < ImpulseCollisions.Length; i++)
         {
+            // Disable any projectiles hit by the impulse
+            if(ImpulseCollisions[i].GetComponent<Projectile>())
+            {
+                ImpulseCollisions[i].GetComponent<Projectile>().DisableProjectile();
+            }
             // Check if the object has a rigidbody attached to it - needs force applied to it
             if(ImpulseCollisions[i].GetComponent<Rigidbody2D>())
             {

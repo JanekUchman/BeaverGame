@@ -250,10 +250,11 @@ MonoBehaviour:
   MinFiringAngle: 10
   DetectionLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967039
   Projectile: {fileID: 1511147570940042, guid: a4a269a5ba1211b44b9ca9c017689d74, type: 2}
   ProjectileSpawn: {fileID: 1799113034}
   MaxInstantiatedProjectiles: 8
+  InstantiatedProjectiles: []
 --- !u!212 &712516498
 SpriteRenderer:
   m_ObjectHideFlags: 0

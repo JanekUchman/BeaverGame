@@ -70,6 +70,7 @@ public class Turret : MonoBehaviour {
                             if(InstantiatedProjectiles.Count < MaxInstantiatedProjectiles)
                             {
                                 GameObject newProjectile = Instantiate(Projectile, ProjectileSpawn.position, ProjectileSpawn.rotation);
+                                newProjectile.GetComponent<Projectile>().EnableProjectile();
                                 // Add new projectile to the list of instantiated projectiles
                                 InstantiatedProjectiles.Add(newProjectile);
                             }
